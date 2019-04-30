@@ -1,0 +1,2 @@
+# PrologStuff
+Some prolog exercises.
