@@ -1,0 +1,31 @@
+%NICI ASTA...
+
+f([], Col, Col).
+f([_|T], Col, Rez):-
+    \+coliniare(Col),
+    f(T, Col, Rez).
+f([H|T], Col, Rez):-
+    coliniare(Col),
+    f(T, [H|Col], Rez).
+combPct([H|T], Rez):-f(T, [H], Rez).
+
+coliniare([_,_|[]]):- !.
+coliniare([[X1,Y1|[]], [X2,Y2|[]], [X3,Y3|[]]|T]):-
+    distanta(X1, Y1, X2, Y2, D1),
+    distanta(X1, Y1, X3, Y3, D2),
+    distanta(X2, Y2, X3, Y3, D3),
+    D1 is D2+D3,
+    coliniare([[X2,Y2|[]], [X3,Y3|[]]|T]), !.
+coliniare([[X1,Y1|[]], [X2,Y2|[]], [X3,Y3|[]]|T]):-
+    distanta(X1, Y1, X2, Y2, D1),
+    distanta(X1, Y1, X3, Y3, D2),
+    distanta(X2, Y2, X3, Y3, D3),
+    D2 is D1+D3,
+    coliniare([[X2,Y2|[]], [X3,Y3|[]]|T]), !.
+coliniare([[X1,Y1|[]], [X2,Y2|[]], [X3,Y3|[]]|T]):-
+    distanta(X1, Y1, X2, Y2, D1),
+    distanta(X1, Y1, X3, Y3, D2),
+    distanta(X2, Y2, X3, Y3, D3),
+    D3 is D1+D2,
+    coliniare([[X2,Y2|[]], [X3,Y3|[]]|T]), !.
+coliniare(_):- fail.

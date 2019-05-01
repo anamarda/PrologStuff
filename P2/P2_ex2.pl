@@ -1,0 +1,46 @@
+%determina minimul intr-o lista
+%min_aux(lista, minim, minim_rez) (i, i, o)
+min_aux([], E, E):- !.
+min_aux([H|T], E, M):-
+    H < E,
+    min_aux(T, H, M), !.
+min_aux([_|T], E, M):-
+    min_aux(T, E, M), !.
+
+%min(lista, minim) (i, o)
+min([], []):- !.
+min([H|T], M):- min_aux(T, H, M).
+
+%sterge prima aparitie a unui nr dintr-o lista data
+%sterge_aux(lista, elem, var_bool, lista rezultat) (i, i, i, o)
+%variabila bool devine 1 daca s-a produs stergerea
+sterge_aux([], _, _, []):- !.
+sterge_aux([H|T], E, Verif, Rez):-
+    H=:=E,
+    Verif=:=0,
+    sterge_aux(T, E, 1, Rez), !.
+sterge_aux([H|T], E, Verif, [H|Rez]):-
+    sterge_aux(T, E, Verif, Rez).
+sterge(L, E, Rez):- sterge_aux(L, E, 0, Rez).
+
+sort_cresc([], []):- !.
+sort_cresc(L, [MIN|Rez]):-
+    min(L, MIN),
+    sterge(L, MIN, L_Nou),
+    sort_cresc(L_Nou, Rez).
+
+%inversarea unei liste
+inv_aux([], Col, Col):- !.
+inv_aux([H|T], Col, Rez):-
+    inv_aux(T, [H|Col], Rez).
+inv(L, Rez):- inv_aux(L, [], Rez).
+
+%sortarea sublistelor dintr-o lista crescator
+sortareSubliste_aux([], Col, Col):- !.
+sortareSubliste_aux([H|T], Col, Rez):-
+    is_list(H),
+    sort_cresc(H, H1),
+    sortareSubliste_aux(T, [H1|Col], Rez), !.
+sortareSubliste_aux([H|T], Col, Rez):-
+    sortareSubliste_aux(T, [H|Col], Rez).
+sortareSubliste(L, Rez):- sortareSubliste_aux(L, [], Rez).

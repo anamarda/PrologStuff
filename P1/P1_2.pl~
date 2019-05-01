@@ -1,0 +1,24 @@
+%a. Sa se scrie un predicat care determina cel mai mic
+%multiplu comun al elementelor unei liste formate din numere intregi.
+
+%cmmdc(integer, integer, integer) - (i i o)
+cmmdc(E, E, E):- !.
+cmmdc(A, B, Rez):-
+    A > B,
+    A1 is A-B,
+    cmmdc(A1, B, Rez), !.
+cmmdc(A, B, Rez):-
+    B1 is B-A,
+    cmmdc(A, B1, Rez).
+
+%cmmmc(int, int, int) - (i, i, o)
+cmmmc(A, B, X):-
+    cmmdc(A, B, M),
+    X is (A*B)/M.
+
+%cmmmcLista(list, int) - (i, o)
+cmmmcLista([], []):- !.
+cmmmcLista([H|[]], H):- !.
+cmmmcLista([H|T], Rez):-
+    cmmmcLista(T, Rez1),
+    cmmmc(H, Rez1, Rez).

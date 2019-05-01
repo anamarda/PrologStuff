@@ -1,0 +1,2 @@
+inv([], Col, Col):- !.
+inv([H|T], Col, Rez):- inv(T, [H|Col], Rez).

@@ -1,0 +1,20 @@
+%imi bag ceva
+inv([], Col, Col):- !.
+inv([H|T], Col, Rez):- inv(T, [H|Col], Rez).
+
+pred([], _, Col, Col):- !.
+pred([0|T], 0, Col, Rez):-
+    pred(T, 9, [9|Col], Rez), !.
+pred([0|T], 9, Col, Rez):-
+    pred(T, 9, [9|Col], Rez), !.
+pred([H|T], -1, Col, Rez):-
+    pred(T, -1, [H|Col], Rez), !.
+pred([0|T], 9, Col, Rez):-
+    pred(T, 9, [9|Col], Rez), !.
+pred([H|T], 9, Col, Rez):-
+    H1 is H-1,
+    pred(T, -2, [H1|Col], Rez), !.
+pred([H|T], -2, Col, Rez):-
+    pred(T, -2, [H|Col], Rez), !.
+
+predecesor(L, Rez):- pred(L, 0, [], Rez).
